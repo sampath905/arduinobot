@@ -1,4 +1,5 @@
-# arduinobot
+# 6-DOF Robotic Arm :
+
 To run the simulation in Gazebo you need to have ignition gazebo 6 installed:
 
 Note : humble distro

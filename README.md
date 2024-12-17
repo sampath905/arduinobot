@@ -10,8 +10,8 @@ Following CLI help you out in running the simulation:
 - ros2 launch arduinobot_moveit moveit.launch.py
 
 You can implement scripts in 2 ways :
-1)python (works in jazzy)
-2)c++ (works in humble)
+- python (works in jazzy)
+- c++ (works in humble)
 
 Here I implemeted for c++:
 - ros2 run arduinobot_moveit simple_moveit_interface

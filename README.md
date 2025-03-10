@@ -10,6 +10,10 @@ Following CLI help you out in running the simulation:
 - ros2 launch arduinobot_controller controller.launch.py
 - ros2 launch arduinobot_moveit moveit.launch.py
 
+Single launch file :
+
+- ros2 launch arduinobot_moveit arduinobot_simulation.launch.py
+
 You can implement scripts in 2 ways :
 - python (works in jazzy)
 - c++ (works in humble)

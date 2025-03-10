@@ -29,8 +29,8 @@ void move_robot(const std::shared_ptr<rclcpp::Node> node)
     while (rclcpp::ok())  // This will continue until the node is stopped (e.g., via Ctrl+C)
     {
         // Prompt the user for a pose choice
-        int choice;
-        std::cout << "Enter the pose or action number (1-7):\n"
+        std::string input;
+        std::cout << "Enter the pose or action number (1-7) or 'q' to cancel:\n"
                   << "5 - zero_pose\n"
                   << "2 - pick_pose\n"
                   << "4 - opposite_pose\n"
@@ -38,8 +38,28 @@ void move_robot(const std::shared_ptr<rclcpp::Node> node)
                   << "6 - retract_pose\n"
                   << "1 - gripper_open\n"
                   << "3 - gripper_close\n"
+                  << "q - Cancel\n"
                   << "Choice: ";
-        std::cin >> choice;
+        std::cin >> input;
+
+        // Check if the user wants to cancel
+        if (input == "q" || input == "Q")
+        {
+            RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Sequence canceled by user.");
+            break;
+        }
+
+        // Convert input to integer
+        int choice;
+        try
+        {
+            choice = std::stoi(input);
+        }
+        catch (const std::exception &)
+        {
+            RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Invalid input! Please enter a valid number or 'q' to cancel.");
+            continue;
+        }
 
         // Check if input is valid
         if (arm_poses.find(choice) != arm_poses.end())  // For arm poses
@@ -76,7 +96,7 @@ void move_robot(const std::shared_ptr<rclcpp::Node> node)
         }
         else
         {
-            RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Invalid choice! Please enter a number between 1 and 7.");
+            RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Invalid choice! Please enter a number between 1 and 7 or 'q' to cancel.");
             continue;
         }
 
@@ -86,7 +106,7 @@ void move_robot(const std::shared_ptr<rclcpp::Node> node)
         rclcpp::spin_some(node);
     }
 
-    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Sequence canceled or node shutdown.");
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Shutting down...");
 }
 
 int main(int argc, char **argv)
@@ -96,9 +116,6 @@ int main(int argc, char **argv)
 
     // Call the move_robot function
     move_robot(node);
-
-    // Keep the node alive
-    rclcpp::spin(node);
 
     // Shutdown the ROS 2 system
     rclcpp::shutdown();

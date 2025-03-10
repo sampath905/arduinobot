@@ -15,12 +15,16 @@ find_package(rcl_interfaces REQUIRED)
 add_executable(simple_moveit_interface scripts/simple_moveit_interface.cpp)
 ament_target_dependencies(simple_moveit_interface rclcpp moveit_ros_planning_interface)
 
+add_executable(rough scripts/rough.cpp)
+ament_target_dependencies(rough rclcpp moveit_ros_planning_interface)
+
 install(
   DIRECTORY launch config scripts
   DESTINATION share/${PROJECT_NAME}
 )
 install(TARGETS
   simple_moveit_interface
+  rough
   DESTINATION lib/${PROJECT_NAME}
 )
 if(BUILD_TESTING)
